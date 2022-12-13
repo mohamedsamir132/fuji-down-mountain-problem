@@ -1,0 +1,387 @@
+Problem 1: Data Visualization
+import numpy as np
+csv_path = "mtfuji_data.csv"
+np.set_printoptions(suppress=True)
+fuji = np.loadtxt(csv_path, delimiter=",", skiprows=1)
+print(fuji[130:140])
+x = fuji[:,0] # position is the first column
+y = fuji[:,3] # elevation is the fourth column
+# Visualize elevation of mount fuji using matplotlib
+import matplotlib.pyplot as plt
+%matplotlib inline
+fig, ax = plt.subplots()
+plt.plot(x, y)
+plt.title('Mt. Fuji')
+plt.xlabel('position')
+plt.ylabel('elevation')
+
+Problem 2: Function to calculate gradient at a certain point
+
+def gradient_of_current_point(position):
+    current_position = x[position]
+    current_elevation = y[position]
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    gradient = ((previous_elevation - current_elevation) / (previous_position - current_position))
+    print('The gradient of your location is: {}'.format(gradient))
+    
+
+gradient_of_current_point(1)    
+
+Problem 3: Function to calculate the destination point
+
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = abs(dest_point)
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((current_elevation - previous_elevation) / (current_position - previous_position))
+    return gradient
+calculate_next_dest_point(200)
+
+Problem 4 Function to go down the mountain
+
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position) # initialize destination point
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point #equate current point to destination point
+        dest_point_list.append(dest_point) # create a list of destination points
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    return dest_point_list
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = abs(dest_point)
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((current_elevation - previous_elevation) / (current_position - previous_position))
+    return gradient
+go_down_a_mountain(136)
+
+Problem 5: Visualization of the descent process
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    #return dest_point_list
+    import matplotlib.pyplot as plt
+    %matplotlib inline
+    fig, ax = plt.subplots()
+    plt.plot(x, y)
+    plt.scatter(dest_point_list,y[dest_point_list],color='red')
+    plt.title('Mt. Fuji')
+    plt.xlabel('position')
+    plt.ylabel('elevation')
+    plt.show()
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = dest_point
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((previous_elevation - current_elevation) / (previous_position - current_position))
+    return gradient
+go_down_a_mountain(136)
+
+Line graph of altitude and slope
+
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    #return dest_point_list
+    import matplotlib.pyplot as plt
+    %matplotlib inline
+    fig, ax = plt.subplots()
+    #plt.plot(x, y)
+    plt.plot(dest_point_list,y[dest_point_list],color='red')
+    plt.title('Mt. Fuji')
+    plt.xlabel('position')
+    plt.ylabel('slope')
+    plt.show()
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = dest_point
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((previous_elevation - current_elevation) / (previous_position - current_position))
+    return gradient
+go_down_a_mountain(136)
+
+Problem 6: Change Of Initial Value:
+
+#change of initial value to 200
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    return dest_point_list
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = abs(dest_point)
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((current_elevation - previous_elevation) / (current_position - previous_position))
+    return gradient
+go_down_a_mountain(200)
+
+#change of initial value to 200
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    return dest_point_list
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = abs(dest_point)
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((current_elevation - previous_elevation) / (current_position - previous_position))
+    return gradient
+go_down_a_mountain(142)
+
+Problem 7: Visualization of the descent process for each initial value
+# visualization of initial value 200
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    #return dest_point_list
+    import matplotlib.pyplot as plt
+    %matplotlib inline
+    fig, ax = plt.subplots()
+    plt.plot(x, y)
+    plt.scatter(dest_point_list,y[dest_point_list],color='red')
+    plt.title('Mt. Fuji')
+    plt.xlabel('position')
+    plt.ylabel('elevation')
+    plt.show()
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = dest_point
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((previous_elevation - current_elevation) / (previous_position - current_position))
+    return gradient
+go_down_a_mountain(200)
+
+#visualization of slope against position 200
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    #return dest_point_list
+    import matplotlib.pyplot as plt
+    %matplotlib inline
+    fig, ax = plt.subplots()
+    #plt.plot(x, y)
+    plt.plot(dest_point_list,y[dest_point_list],color='red')
+    plt.title('Mt. Fuji')
+    plt.xlabel('position')
+    plt.ylabel('slope')
+    plt.show()
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = dest_point
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((previous_elevation - current_elevation) / (previous_position - current_position))
+    return gradient
+go_down_a_mountain(200)
+
+# visualization of initial value 142
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    #return dest_point_list
+    import matplotlib.pyplot as plt
+    %matplotlib inline
+    fig, ax = plt.subplots()
+    plt.plot(x, y)
+    plt.scatter(dest_point_list,y[dest_point_list],color='red')
+    plt.title('Mt. Fuji')
+    plt.xlabel('position')
+    plt.ylabel('elevation')
+    plt.show()
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = dest_point
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((previous_elevation - current_elevation) / (previous_position - current_position))
+    return gradient
+go_down_a_mountain(142)
+
+#visualization of slope against position 142
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    #return dest_point_list
+    import matplotlib.pyplot as plt
+    %matplotlib inline
+    fig, ax = plt.subplots()
+    #plt.plot(x, y)
+    plt.plot(dest_point_list,y[dest_point_list],color='red')
+    plt.title('Mt. Fuji')
+    plt.xlabel('position')
+    plt.ylabel('slope')
+    plt.show()
+def calculate_next_dest_point(position):
+    learning_rate = 0.2
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = dest_point
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((previous_elevation - current_elevation) / (previous_position - current_position))
+    return gradient
+go_down_a_mountain(142)
+
+Problem 8: Hyperparameter changes
+
+# change learning rate
+def go_down_a_mountain(position):
+    dest_point = calculate_next_dest_point(position)
+    dest_point_list = []
+    for i in range(position):
+        current_point = dest_point
+        dest_point_list.append(dest_point)
+        dest_point = calculate_next_dest_point(current_point)
+        if current_point == dest_point:
+            break
+    #return dest_point_list
+    import matplotlib.pyplot as plt
+    %matplotlib inline
+    fig, ax = plt.subplots()
+    plt.plot(x, y)
+    plt.scatter(dest_point_list,y[dest_point_list],color='red')
+    plt.title('Mt. Fuji')
+    plt.xlabel('position')
+    plt.ylabel('elevation')
+    plt.show()
+def calculate_next_dest_point(position):
+    learning_rate = 0.02 # changing learning rate
+    current_point = x[position]
+    dest_point = current_point - (learning_rate * gradient_of_current_point(position))
+    dest_point = round(dest_point)
+    dest_point = dest_point
+    return dest_point
+def gradient_of_current_point(position):
+    previous_position = x[position - 1]
+    previous_elevation = y[position - 1]
+    current_position = x[position]
+    current_elevation = y[position]
+    gradient = ((previous_elevation - current_elevation) / (previous_position - current_position))
+    return gradient
+go_down_a_mountain(136)
